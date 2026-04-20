@@ -1,9 +1,12 @@
 import json, os, subprocess, sys
-from urllib.error import HTTPError
-from urllib.request import Request, urlopen
+from litellm import completion
 
 cR,cA,cT,cU,cE="\033[0m","\033[92m","\033[96m","\033[94m","\033[91m"
 def say(p,c,s=""): t=str(s or ""); print(c+p+cR+t.replace("\n","\n"+" "*len(p))+cR)
+def opt(a,*k,d=None):
+  for i,v in enumerate(a[:-1]):
+    if v in k: return a[i+1]
+  return d
 
 def exec(args:str) -> str:
   try:
@@ -17,8 +20,9 @@ def exec(args:str) -> str:
 tools=[{"type":"function","function":{"name":"exec","description":"Run a shell command.","parameters":{"type":"object","properties":{"cmd":{"type":"string"}}}}}]
 
 if __name__ == "__main__":
+  a=sys.argv[1:]; model=opt(a,"-m","--model",d=os.getenv("MODEL") or "gpt-5.4")
+  api_key=opt(a,"-k","--api-key"); base_url=opt(a,"--base-url"); api_version=opt(a,"--api-version")
   if os.getenv("QUECTO_DOCKER") != "1": say("Agent: ",cE,"Error: exec agents must be run in Docker."); sys.exit(1)
-  headers={"Content-Type":"application/json","Authorization":f"Bearer {os.environ['OPENAI_API_KEY']}"}
   messages=[]
   while True:
     try: user=input(cU+"You: "+cR)
@@ -29,9 +33,8 @@ if __name__ == "__main__":
       say("Agent: ",cA,"exec"); messages.append({"role":"assistant","content":"exec"}); continue
     while True:
       try:
-        with urlopen(Request("https://api.openai.com/v1/chat/completions", data=json.dumps({"model":"gpt-5.4","messages":messages,"tools":tools}).encode("utf-8"), headers=headers), timeout=60) as res:
-          message=json.loads(res.read())["choices"][0]["message"]
-      except HTTPError as e: say("Agent: ",cE,e.read().decode("utf-8", errors="replace")); break
+        r=completion(model=model, messages=messages, tools=tools, api_key=api_key, base_url=base_url, api_version=api_version)
+        message=(r.model_dump() if hasattr(r,"model_dump") else r.dict())["choices"][0]["message"]
       except Exception as e: say("Agent: ",cE,str(e)); break
       if message.get("content"): say("Agent: ",cA,message["content"])
       messages.append(message); tool_calls=message.get("tool_calls") or ()

@@ -3,4 +3,6 @@ name = "quecto-agent"
 version = "0.0.0"
 description = "Minimal terminal code-editing agent loop (OpenAI + tools)"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "litellm==1.83.10",
+]
