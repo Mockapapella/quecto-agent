@@ -1,5 +1,7 @@
 # Code-editing agent (Python)
 
+![Screenshot](assets/image.png)
+
 Small terminal “agent loop” demos: each script isolates one concept.
 
 - `agent_fs.py`: a single `fs` tool (list/read/write files under the working directory)
