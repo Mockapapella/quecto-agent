@@ -1,10 +1,8 @@
-# Code-editing agent
-
-![Screenshot](assets/image.png)
+# Code-editing agent (Python)
 
 Small terminal “agent loop” demos: each script isolates one concept.
 
-- `agent_fs.py`: a single `fs` tool (list/read/write files and directories under the working directory)
+- `agent_fs.py`: a single `fs` tool (list/read/write files under the working directory)
 - `agent_exec.py`: a single `exec` tool (runs shell commands verbatim; Docker-only)
 - `agent_exec_litellm.py`: same `exec` tool, but uses LiteLLM so you can choose model/provider
 
