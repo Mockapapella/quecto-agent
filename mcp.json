@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest", "--headless", "--browser", "chromium", "--no-sandbox"]
+    },
+    "fetch": {
+      "command": "uvx",
+      "args": ["--with", "readabilipy==0.2.0", "mcp-server-fetch"]
+    }
+  }
+}

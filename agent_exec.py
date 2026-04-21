@@ -17,7 +17,6 @@ def exec(args:str) -> str:
 tools=[{"type":"function","function":{"name":"exec","description":"Run a shell command.","parameters":{"type":"object","properties":{"cmd":{"type":"string"}}}}}]
 
 if __name__ == "__main__":
-  if os.getenv("QUECTO_DOCKER") != "1": say("Agent: ",cE,"Error: exec agents must be run in Docker."); sys.exit(1)
   headers={"Content-Type":"application/json","Authorization":f"Bearer {os.environ['OPENAI_API_KEY']}"}
   messages=[]
   while True:

@@ -21,8 +21,6 @@ tools=[{"type":"function","function":{"name":"exec","description":"Run a shell c
 
 if __name__ == "__main__":
   a=sys.argv[1:]; model=opt(a,"-m","--model",d=os.getenv("MODEL") or "gpt-5.4")
-  api_key=opt(a,"-k","--api-key"); base_url=opt(a,"--base-url"); api_version=opt(a,"--api-version")
-  if os.getenv("QUECTO_DOCKER") != "1": say("Agent: ",cE,"Error: exec agents must be run in Docker."); sys.exit(1)
   messages=[]
   while True:
     try: user=input(cU+"You: "+cR)
@@ -33,7 +31,7 @@ if __name__ == "__main__":
       say("Agent: ",cA,"exec"); messages.append({"role":"assistant","content":"exec"}); continue
     while True:
       try:
-        r=completion(model=model, messages=messages, tools=tools, api_key=api_key, base_url=base_url, api_version=api_version)
+        r=completion(model=model, messages=messages, tools=tools)
         message=(r.model_dump() if hasattr(r,"model_dump") else r.dict())["choices"][0]["message"]
       except Exception as e: say("Agent: ",cE,str(e)); break
       if message.get("content"): say("Agent: ",cA,message["content"])

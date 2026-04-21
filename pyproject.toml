@@ -1,7 +1,7 @@
 [project]
 name = "quecto-agent"
 version = "0.0.0"
-description = "Minimal terminal code-editing agent loop (OpenAI + tools)"
+description = "Minimal terminal agent loop (OpenAI + tools)"
 requires-python = ">=3.12"
 dependencies = [
     "litellm==1.83.10",
