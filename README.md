@@ -9,6 +9,8 @@ Quecto Agent is set of extremely dense agents, with the most capable (`agent_ful
 - Reads AGENTS.md
 - Skill discovery
 
+All under 100 lines of Python
+
 ![Screenshot](assets/image.png)
 
 In a nutshell:
